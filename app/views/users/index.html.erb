@@ -1,0 +1,12 @@
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
+
+<ul class="users">
+	<% @users.each do |user| %>
+	<li>
+		<%= image_tag user.avatar.attached? ? user.avatar :  "index.png", class: "avatar" %>
+		<p><b>Name: </b><%= user.name %></p>
+		<p><b>Mail: </b><%= user.email %></p>
+	</li>
+	<% end %>
+</ul>
