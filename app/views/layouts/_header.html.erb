@@ -1,14 +1,16 @@
 <!-- Вставка в header -->
    <header class="navbar navbar-fixed-top navbar-inverse">
       <div class="container">
-        <%= link_to "sample app", root_path, id: "logo" %>
-        <nav>
+        <%= link_to "cool blog", root_path, id: "logo" %>
+    
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Help", help_path %></li>
 
         <!-- Если пользователь залогинен показываем ему ссылку на профиль и log out -->
         <% if logged_in? %>
+          <li><%= link_to "Articles", articles_path %></li>
+          <li><%= link_to "Create article", new_article_path %></li>
           <li><%= link_to "Users", users_path %></li>
           <li><%= link_to "Profile", current_user %></li>
           <li><%= link_to "Settings", edit_user_path(current_user) %></li>
@@ -17,6 +19,7 @@
         <!-- Если пользователь yt залогинен показываем ему ссылку на log in -->
         <% else %>
           <li><%= link_to "Log in", login_path %></li>
+          <li><%= link_to "Sign up", signup_path %></li>
         <% end %>
 
       </ul>

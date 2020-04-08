@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  
   # Маршруты для статических страниц
   root'static_pages#home'
   get 'help' 	=> 	'static_pages#help'
@@ -10,9 +11,14 @@ Rails.application.routes.draw do
   post   'login'   => 'sessions#create'
   delete 'logout'  => 'sessions#destroy'
 
-  #Марруты для юзера
+  #Маршруты для юзера
   get 'signup'	=>	'users#new'
   resources :users
+
+  #Маршруты для статьи и комментария
+  resources :articles do
+    resources :comments
+  end
   
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

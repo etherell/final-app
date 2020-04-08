@@ -192,3 +192,25 @@ aside {
     border-bottom: 1px solid $gray-lighter;
   }
 }
+
+.wrapper {
+  width: 30%;
+}
+
+.small {
+  width: 75px;
+  height: 75px;
+}
+
+.search {
+  display: flex;
+  width: 80%;
+}
+
+.cool {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+

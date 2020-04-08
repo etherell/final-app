@@ -1,0 +1,39 @@
+<!-- Страница вывода одной статьи -->
+<div class="user_wrapper">
+<p>
+	<strong>Author:</strong>
+	<%= image_tag @article.user.avatar.attached? ? @article.user.avatar :  "index.png", class: "avatar" %>
+	<%= @article.user.name %>
+</p>
+</div>
+
+<div class="article_wrapper">
+	<p>
+		<b>Title:</b>
+		<%= @article.title %>
+	</p>
+
+	<p>
+		<b>Text:</b>
+		<%= @article.text %><br>
+		<% if @article.user == current_user %>
+			<%= link_to 'Edit article', edit_article_path(@article) %>
+		<% end %>
+	</p>
+
+	
+	</div>
+
+
+<div class="wrapper">
+	<!-- <% unless @article.comments.empty? %> -->
+		<h2>Comments</h2>
+
+		<%= render @article.comments %>
+	<!-- <% end %> -->
+
+	<h2>Add a comment:</h2>
+	<%= render 'comments/form' %>
+
+	<%= link_to 'Back', articles_path %>
+</div>

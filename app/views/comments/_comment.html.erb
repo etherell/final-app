@@ -1,0 +1,18 @@
+
+<div class="small_block">
+	<%= image_tag comment.user.avatar.attached? ? comment.user.avatar :  "index.png", class: "avatar small" %>
+	<%= comment.user.name %>
+</div>
+
+<p>
+  <strong>Comment:</strong>
+  <%= comment.body %>
+</p>
+
+<% if comment.user == current_user %>
+<p>
+	<%= link_to 'Destroy Comment', [comment.article, comment],
+		method: :delete,
+		data: { confirm: 'Are you sure?' } %>
+</p>
+<% end %>
