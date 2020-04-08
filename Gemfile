@@ -53,10 +53,10 @@ group :test do
   gem 'rails-controller-testing'
 end
 
-# group :production do
-#   gem 'pg', '0.20.0'
-#   gem 'rails_12factor'
-# end
+group :production do
+  gem 'pg', '0.20.0'
+  gem 'rails_12factor'
+end
 
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
