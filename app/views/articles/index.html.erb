@@ -34,4 +34,5 @@
 	<%= link_to 'Create article', new_article_path %></h4>
 <% end %>
 
-</table>
+<%= will_paginate(@articles) %>
+
