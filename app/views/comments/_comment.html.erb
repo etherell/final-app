@@ -1,6 +1,12 @@
 
 <div class="small_block">
-	<%= image_tag comment.user.avatar.attached? ? comment.user.avatar :  "index.png", class: "avatar small" %>
+
+	<% if comment.user.avatar.attached? %>
+        <%= cl_image_tag comment.user.avatar.key, class: "avatar small" %>
+    <% else %>
+        <%= image_tag "/images/index.png", class: "avatar small" %>
+    <% end %>
+
 	<%= comment.user.name %>
 </div>
 

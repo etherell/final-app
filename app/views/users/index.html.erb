@@ -4,7 +4,13 @@
 <ul class="users">
 	<% @users.each do |user| %>
 	<li>
-		<%= image_tag user.avatar.attached? ? user.avatar :  "index.png", class: "avatar" %>
+	
+		<% if user.avatar.attached? %>
+			<%= cl_image_tag user.avatar.key, class: "avatar" %>
+		<% else %>
+			<%= image_tag "/images/index.png", class: "avatar" %>
+		<% end %>
+
 		<p><b>Name: </b><%= user.name %></p>
 		<p><b>Mail: </b><%= user.email %></p>
 	</li>
