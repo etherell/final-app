@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: dzgqnrdiv
+  api_key: '985196443525745'
+  api_secret: lEwW3VbONSGjJByj6e4joIAuVzE
+  enhance_image_tag: true
+  static_file_support: true
+production:
+  cloud_name: dzgqnrdiv
+  api_key: '985196443525745'
+  api_secret: lEwW3VbONSGjJByj6e4joIAuVzE
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: dzgqnrdiv
+  api_key: '985196443525745'
+  api_secret: lEwW3VbONSGjJByj6e4joIAuVzE
+  enhance_image_tag: true
+  static_file_support: true
