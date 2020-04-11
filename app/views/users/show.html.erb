@@ -3,7 +3,7 @@
   <aside class="col-md-4">
     <section class="user_info">
       <h4>
-     	<%= image_tag @user.avatar.attached? ? @user.avatar : "index.png", class: "avatar" %>
+     	<%= cl_image_tag(@user.avatar.key) %>
         <b>Name:</b> <%= @user.name %></p>
         <b>E-mail:</b> <%= @user.email %></p>
        	<%= link_to "Edit", edit_user_path(current_user) %>

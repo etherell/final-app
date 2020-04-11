@@ -19,7 +19,7 @@
       <%= f.password_field :password_confirmation, class: 'form-control' %>
 
       <%= f.label :avatar %>
-      <%= f.file_field :avatar %>
+      <%= f.file_field :avatar, class: 'form-control', direct_upload: true  %>
 
       <%= f.submit "Create my account", class: "btn btn-primary" %>
     <% end %>

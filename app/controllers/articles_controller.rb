@@ -1,19 +1,11 @@
 class ArticlesController < ApplicationController
 	before_action :logged_in_user, only: [:edit, :update] 
 	before_action :current_article, only: [:show, :edit, :update, :destroy]
-	require 'will_paginate/array'
-
 
 	# Сочетание действия Index и Поиска в одном
 	def index
 		@articles = Article.where(["title LIKE ?","%#{params[:search]}%"])
 		.paginate(page: params[:page]).order('created_at DESC')
-		# @articles = []
-		# Article.where(["title LIKE ?","%#{params[:search]}%"]).each do |article|
-		# 	@articles.push(article)
-		# end
-
-		# @articles = @articles.paginate(page: params[:page], per_page: 2)
 	end
 
 	# Действие для вывода одной статьи
