@@ -1,36 +1,25 @@
 class ArticlesController < ApplicationController
 	before_action :logged_in_user, only: [:edit, :update] 
 	before_action :current_article, only: [:show, :edit, :update, :destroy]
-	require 'will_paginate/array'
+	#require 'pry'
 
-
-	# Сочетание действия Index и Поиска в одном
 	def index
-		@articles = Article.where(["title LIKE ?","%#{params[:search]}%"])
+		@articles = Article.includes(:user).where(["title LIKE ?","%#{params[:search]}%"])
 		.paginate(page: params[:page]).order('created_at DESC')
-		# @articles = []
-		# Article.where(["title LIKE ?","%#{params[:search]}%"]).each do |article|
-		# 	@articles.push(article)
-		# end
-
-		# @articles = @articles.paginate(page: params[:page], per_page: 2)
 	end
 
-	# Действие для вывода одной статьи
 	def show
+		@comments = @article.comments.includes(:user).paginate(page: params[:page], per_page: 5).order('created_at DESC')
+		# binding.pry
 	end
 
-	# Действие которое выводит форму для создания статей
 	def new
 		@article = Article.new
 	end
 
-	# Действие которое выводит форму для редактироания статьи
 	def edit
 	end
 
-	# Действие которое создаёт новую статью с заполненными параметрами, которые принимаются из приватного метода
-	# HTTP - POST
 	def create
 	 	@article = Article.new(article_params)
 	 	@article.user = current_user
@@ -42,7 +31,6 @@ class ArticlesController < ApplicationController
 	 	end
 	end 
 
-	# Действие обновляющее статью (HTTP - PATCH/PUT)
 	def update
 		if @article.update(article_params)
 			redirect_to @article
@@ -51,7 +39,6 @@ class ArticlesController < ApplicationController
 		end
 	end
 
-	# Действие удаляющее статью (HTTP - DELETE)
 	def destroy
 		if current_user == @article.user
 			@article.destroy
@@ -61,12 +48,11 @@ class ArticlesController < ApplicationController
 		end
 	end
 
-	# Запись текущей статьи в переменную
+	private
   	def current_article
     	@article = Article.find(params[:id])
   	end
-
-	# Приватный метод который передаёт параметры
+	
 	def article_params
     	params.require(:article).permit(:title, :text)
   	end

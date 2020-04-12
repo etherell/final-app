@@ -3,17 +3,25 @@ class CommentsController < ApplicationController
 
 	def create
 		@comment = @article.comments.build(comment_params)
-    	@comment.user = current_user
-    	@comment.save
+    @comment.user = current_user
+    @comment.save
 
-		redirect_to article_path(@article)
+    respond_to do |format|
+    	if @comment.save
+				format.js
+				format.html { redirect_to article_path(@article) }	
+			end
+		end
 	end
 
 	def destroy
 		@comment = @article.comments.find(params[:id])
 		if @comment.user == current_user
 			@comment.destroy
-			redirect_to article_path(@article)
+				respond_to do |format|
+					format.js
+					format.html { redirect_to article_path(@article) }	
+				end
 		else
 			flash[:danger] = "You can't do this!"
 		end

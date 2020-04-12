@@ -2,7 +2,13 @@
 <div class="user_wrapper">
 <p>
 	<strong>Author:</strong>
-	<%= image_tag @article.user.avatar.attached? ? @article.user.avatar :  "index.png", class: "avatar" %>
+
+	<% if @article.user.avatar.attached? %>
+        <%= cl_image_tag @article.user.avatar.key, class: "avatar" %>
+    <% else %>
+        <%= image_tag "/images/index.png", class: "avatar" %>
+    <% end %>
+
 	<%= @article.user.name %>
 </p>
 </div>
@@ -25,15 +31,20 @@
 	</div>
 
 
-<div class="wrapper">
-	<!-- <% unless @article.comments.empty? %> -->
-		<h2>Comments</h2>
+<div class="wrapper" id="comments">
 
-		<%= render @article.comments %>
-	<!-- <% end %> -->
+	<h2>Comments</h2>
+	<div class="comments">
+		<%= render @comments %>
+		<%= will_paginate(@comments) %>
+	</div>
 
+
+<div class="new-comment">
 	<h2>Add a comment:</h2>
 	<%= render 'comments/form' %>
+</div>
 
 	<%= link_to 'Back', articles_path %>
 </div>
+

@@ -1,24 +1,26 @@
+<div class="comment"> 
+  <div class="small_block">
 
-<div class="small_block">
-
-	<% if comment.user.avatar.attached? %>
-        <%= cl_image_tag comment.user.avatar.key, class: "avatar small" %>
+  	<% if comment.user.avatar.attached? %>
+          <%= cl_image_tag comment.user.avatar.key, class: "avatar small" %>
     <% else %>
-        <%= image_tag "/images/index.png", class: "avatar small" %>
+          <%= image_tag "/images/index.png", class: "avatar small" %>
     <% end %>
 
-	<%= comment.user.name %>
+  	<%= comment.user.name %>
+  </div>
+
+  <p>
+    <strong>Comment:</strong>
+    <%= comment.body %>
+  </p>
+
+  <% if comment.user == current_user %>
+  <p>
+  	<%= link_to 'Destroy Comment', [comment.article, comment],
+  		method: :delete,
+  		data: { confirm: 'Are you sure?', remote: true}, class: "delete" %>
+  </p>
+  <% end %>
+  
 </div>
-
-<p>
-  <strong>Comment:</strong>
-  <%= comment.body %>
-</p>
-
-<% if comment.user == current_user %>
-<p>
-	<%= link_to 'Destroy Comment', [comment.article, comment],
-		method: :delete,
-		data: { confirm: 'Are you sure?' } %>
-</p>
-<% end %>
