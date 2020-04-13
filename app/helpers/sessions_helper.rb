@@ -3,11 +3,11 @@ module SessionsHelper
 	# Действие определяющее текущего пользователя по ID в сессии или в куках
 	# Возвращает пользователя, соответствующего remember-токену в куки.
 	def current_user
-	  if (user_id = session[:user_id])
-	    @current_user ||= User.find_by(id: user_id)
-	  elsif (user_id = cookies.signed[:user_id])
-	    user = User.find_by(id: user_id)
-	    if user && user.authenticated?(cookies[:remember_token])
+	  if session[:user_id]
+	    @current_user ||= User.find_by(id: session[:user_id])
+	  elsif cookies.signed[:user_id]
+	    user = User.find_by(id: cookies.signed[:user_id])       # Проверяем есть ли в куках соответствующий id
+	    if user && user.authenticated?(cookies[:remember_token])# Проверяем есть ли в куках соответствующий токен, т.е. авторизирован ли пользователь
 	      log_in user
 	      @current_user = user
 	    end
