@@ -53,13 +53,10 @@ class UsersController < ApplicationController
                                    :password_confirmation, :avatar)
   	end
 
-
-
   	# Приватный метод определяющий текущего пользователя
   	def correct_user
       @user = User.find(params[:id])
       redirect_to(root_url) unless @user == current_user
     end
-
 
 end
