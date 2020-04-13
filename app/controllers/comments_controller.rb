@@ -1,13 +1,14 @@
 class CommentsController < ApplicationController
 	before_action :current_article
-
+	require 'pry'
+	
 	def create
 		@comment = @article.comments.build(comment_params)
-    @comment.user = current_user
-    @comment.save
+    	@comment.user = current_user
+    	binding.pry
 
-    respond_to do |format|
-    	if @comment.save
+    	respond_to do |format|
+    		if @comment.save
 				format.js
 				format.html { redirect_to article_path(@article) }	
 			end

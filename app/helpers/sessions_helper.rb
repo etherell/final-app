@@ -3,16 +3,16 @@ module SessionsHelper
 	# Действие определяющее текущего пользователя по ID в сессии или в куках
 	# Возвращает пользователя, соответствующего remember-токену в куки.
 	def current_user
-	  if session[:user_id]
-	    @current_user ||= User.find_by(id: session[:user_id])
-	  elsif cookies.signed[:user_id]
-	    user = User.find_by(id: cookies.signed[:user_id])       # Проверяем есть ли в куках соответствующий id
-	    if user && user.authenticated?(cookies[:remember_token])# Проверяем есть ли в куках соответствующий токен, т.е. авторизирован ли пользователь
-	      log_in user
-	      @current_user = user
+	    if (user_id = session[:user_id])
+	      @current_user ||= User.find_by(id: user_id)
+	    elsif (user_id = cookies.signed[:user_id])
+	      user = User.find_by(id: user_id)
+	      if user && user.authenticated?(cookies[:remember_token])
+	        log_in user
+	        @current_user = user
+	      end
 	    end
 	  end
-	end
 	
 	# Действие назначающее сессии айди пользователя
 	def log_in(user)
@@ -40,8 +40,8 @@ module SessionsHelper
 
 	# Действие удаляющее текущую сессию и юзера
 	def log_out
-		forget(current_user)
-	    session.delete(:user_id)
-	    @current_user = nil
+    	forget(current_user)
+    	session.delete(:user_id)
+    	@current_user = nil
   	end
 end
