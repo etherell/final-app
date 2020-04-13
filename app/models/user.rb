@@ -2,8 +2,9 @@ class User < ApplicationRecord
 	
 	attr_accessor :remember_token, :activation_token
 	# Валидации
-	before_save :downcase_email
-	before_create :create_activation_digest
+	before_save   :downcase_email
+  	before_create :create_activation_digest
+
 	before_save { self.email = email.downcase } 	 			# Приведение email к одному виду
 	validates :name,  presence: true, length: { maximum: 50 }  	# Имя до 50 символов
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i    # Регулярное вырожение для email
@@ -43,20 +44,27 @@ class User < ApplicationRecord
   	end
 	
 	# Возвращает true, если предоставленный токен совпадает с дайджестом.
-	def authenticated?(remember_token)
-		return false if remember_digest.nil?
-    	BCrypt::Password.new(remember_digest).is_password?(remember_token)
+	def authenticated?(attribute, token)
+	  digest = send("#{attribute}_digest")
+	  return false if digest.nil?
+	  BCrypt::Password.new(digest).is_password?(token)
+	end
+
+	def activate
+    	update_attribute(:activated,    true)
+    	update_attribute(:activated_at, Time.zone.now)
   	end
 
 	# Ковертация email в нижний регистр
 	private
+	# Переводит адрес электронной почты в нижний регистр.
 	def downcase_email
-		self.email = email.downcase
+	  self.email = email.downcase
 	end
 
-	# Создает и присваивает активационнй токен и дайджест
+	# Создает и присваивает активационнй токен и дайджест.
 	def create_activation_digest
-		self.activation_token = User.new_token
-		self.activation_digest = User.digest(activation_token)
+	  self.activation_token  = User.new_token
+	  self.activation_digest = User.digest(activation_token)
 	end
 end

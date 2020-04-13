@@ -20,13 +20,13 @@ class UsersController < ApplicationController
 
 	# Действие создающее нового пользователя
 	def create
-	    @user = User.new(user_params)   	# Передача хэша user_params, через метод
+	    @user = User.new(user_params)
 	    if @user.save
-	    	log_in @user 					#log_in - метод в хэлпере принимающий юзера и 
-	       	flash[:success] = "Welcome!" 	# Вывод приветствия
-      		redirect_to @user
+	      @user.send_activation_email  # Действие отправки письма из модели
+	      flash[:info] = "Please check your email to activate your account."
+	      redirect_to root_url
 	    else
-	      	render 'new'
+	      render 'new'
 	    end
 	end
 
