@@ -62,16 +62,7 @@ Rails.application.configure do
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :test
-  host = 'localhost:3000'
+  host = 'localhost:3000'   
   config.action_mailer.default_url_options = { host: host }
-  ActionMailer::Base.smtp_settings = {
-  :port           => 587,
-  :address        => 'smtp.mailgun.org',
-  :domain         => 'localhost:3000',
-  :authentication => :plain,
-  :user_name      => "postmaster@sandbox2f60fcd34476460dbd7591aa8661b071.mailgun.org",
-  :password       => "990bc3e0b46a68f08ae6c3f6524e2183-915161b7-a201dec8",
-  }
-  ActionMailer::Base.delivery_method = :smtp
 
 end
