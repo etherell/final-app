@@ -7,29 +7,31 @@ class PasswordResetsController < ApplicationController
   def new
   end
 
-  def create
-    @user = User.find_by(email: params[:password_reset][:email].downcase)
-    if @user
-      @user.create_reset_digest
-      @user.send_password_reset_email
-      flash[:info] = "Email sent with password reset instructions"
-      redirect_to root_url
-    else
-      flash.now[:danger] = "Email address not found"
-      render 'new'
-    end
-  end
-
+  # Создание reset digest и отправка письма
+ def create
+   @user = User.find_by(email: params[:password_reset][:email].downcase)
+   if @user
+     @user.create_reset_digest
+     @user.send_password_reset_email
+     flash[:info] = "Email sent with password reset instructions"
+     redirect_to root_url
+   else
+     flash.now[:danger] = "Email address not found"
+     render 'new'
+   end
+ end
+  
   def edit
   end
 
+  # Действие обновление пароля, обновляет пароль в базе и логинит юзера если поля заполнены
   def update
-    if params[:user][:password].empty? 	 		    # Проверка пустой ли пароль
+    if params[:user][:password].empty?
       @user.errors.add(:password, "can't be empty")
       render 'edit'
-    elsif @user.update_attributes(user_params) 	 	# Обновление пароля данными из формы
+    elsif @user.update_attributes(user_params)
       log_in @user
-      flash[:success] = "Password has been reset." 	
+      flash[:success] = "Password has been reset."
       redirect_to @user
     else
       render 'edit'
@@ -38,29 +40,32 @@ class PasswordResetsController < ApplicationController
 
   private
 
-    def user_params
+  # Действие получающее пароль из полей сброса
+  def user_params
       params.require(:user).permit(:password, :password_confirmation)
-    end
+  end
 
-      # Предфильтры
+    
+  # Находит юзера по id
+  def get_user
+    @user = User.find_by(email: params[:email])
+  end
 
-      def get_user
-        @user = User.find_by(email: params[:email])
+  # Предфильтры
+  # Проверяет валидность пользователя.
+   def valid_user
+     unless (@user && @user.activated? &&
+             @user.authenticated?(:reset, params[:id]))
+       redirect_to root_url
+     end
+   end
+
+  # Проверяет срок действия reset-токена.
+  def check_expiration
+      if @user.password_reset_expired?
+        flash[:danger] = "Password reset has expired."
+        redirect_to new_password_reset_url
       end
+  end
 
-      # Подтверждает валидность пользователя.
-      def valid_user
-        unless (@user && @user.activated? &&
-                @user.authenticated?(:reset, params[:id]))
-          redirect_to root_url
-        end
-      end
-
-      # Проверяет срок действия reset-токена.
-      def check_expiration
-        if @user.password_reset_expired?
-          flash[:danger] = "Password reset has expired."
-          redirect_to new_password_reset_url
-        end
-      end
 end

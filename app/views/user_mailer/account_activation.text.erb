@@ -1,5 +1,3 @@
-Привет, <%= @user.name %>!
-
-Добро пожаловать в Cool Blog! Перейдите по ссылке для активации аккаунта:
-
+Hello, <%= @user.name %>!
+Welcome to the Cool blog! Follow the link to activate your account:
 <%= edit_account_activation_url(@user.activation_token, email: @user.email) %>
