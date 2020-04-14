@@ -1,9 +1,11 @@
-<h1>Sample App</h1>
-
-<p>Привет, <%= @user.name %>!</p>
+<h1>Cool blog</h1>
 
 <p>
-Добро пожаловать в Cool Blog! Перейдите по ссылке для активации аккаунта:
+  Hello, <%= @user.name %>!
+</p>
+
+<p>
+	Welcome to the Cool blog! Follow the link to activate your account:
 </p>
 
 <%= link_to "Activate", edit_account_activation_url(@user.activation_token,
