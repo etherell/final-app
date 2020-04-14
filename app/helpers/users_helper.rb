@@ -1,6 +1,6 @@
 module UsersHelper
   
-  # Проверка на то залогинен ли юзер
+  # checks if user logged in
   	def logged_in_user
       unless logged_in?
         flash[:danger] = "Please log in."

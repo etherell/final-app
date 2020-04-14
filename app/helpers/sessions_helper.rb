@@ -1,23 +1,23 @@
 module SessionsHelper
 
-	# Действие назначающее сессии айди пользователя
+	# Assigns session ID
 	def log_in(user)
 	  session[:user_id] = user.id
 	end
 
-  	# Запоминает пользователя в постоянную сессию.
+  	# Remembers user in permanent session
   	def remember(user)
-    	user.remember                              # генерирует remember-токен и сохраняет в базу данных его дайджест
-    	cookies.permanent.signed[:user_id] = user.id # запись и шифрование юзер ID
-    	cookies.permanent[:remember_token] = user.remember_token
+    	user.remember                              					# generates remember token and saves to DB his digest
+    	cookies.permanent.signed[:user_id] = user.id 				# user ID recording and encription
+    	cookies.permanent[:remember_token] = user.remember_token	# assignes permanent remember token to user
   	end
 
-  	# Возвращает true если текущий юзер это current user
+  	# Returns true if user is current user
   	def current_user?(user)
     	user == current_user
   	end
 
-	# Возвращает текущего пользователя, осуществившего вход (если он есть)
+	# Returns logged in current user
 	def current_user
 	  if (user_id = session[:user_id])
 	    @current_user ||= User.find_by(id: user_id)
@@ -31,19 +31,19 @@ module SessionsHelper
 	end
 
 
-	# Действие проверяющее залогинен ли пользователь
+	# Checks if user logged in
 	def logged_in?
 	  current_user != nil
 	end
 
-	# Забывает постоянную сессии.
+	# Deletes cookies
 	def forget(user)
-	  user.forget					# Назначение nil значению remember_digest из базы
+	  user.forget					# remember_digest in DB = nil
 	  cookies.delete(:user_id)
 	  cookies.delete(:remember_token)
 	end
 
-	# Действие удаляющее текущую сессию и юзера
+	# Deletes user current session
 	def log_out
 	  forget(current_user)
 	  session.delete(:user_id)
@@ -55,7 +55,7 @@ module SessionsHelper
     	session.delete(:forwarding_url)
   	end
 
-  	#Save url
+  	# Saves url
   	def store_location
     	session[:forwarding_url] = request.url if request.get?
   	end

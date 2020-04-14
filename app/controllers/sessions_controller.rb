@@ -1,12 +1,13 @@
 class SessionsController < ApplicationController
-  # Действие создающее страницу login
+
+  # Login page
   def new
   end
 
-  # Действие создающее сессию для пользователя
+  # Creates session for user
  def create
-  user = User.find_by(email: params[:session][:email].downcase) # Найти юзера в базе данных по его email
-  if user && user.authenticate(params[:session][:password])     # Если пользователь найден - сделать следующее
+  user = User.find_by(email: params[:session][:email].downcase) # finds user by email in DB
+  if user && user.authenticate(params[:session][:password])     # if user found do next
     if user.activated?
        log_in user
        params[:session][:remember_me] == '1' ? remember(user) : forget(user)
@@ -23,7 +24,7 @@ class SessionsController < ApplicationController
   end
  end
 
-  # Действие выполняющее Log-out
+  # Logs user out
   def destroy
     log_out if logged_in?
     redirect_to root_url

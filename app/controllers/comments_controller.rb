@@ -1,11 +1,9 @@
 class CommentsController < ApplicationController
 	before_action :current_article
-	# require 'pry'
 
 	def create
 		@comment = @article.comments.build(comment_params)
     	@comment.user = current_user
-    	# binding.pry
 
     	respond_to do |format|
     		if @comment.save

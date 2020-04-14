@@ -1,7 +1,8 @@
 class AccountActivationsController < ApplicationController
 		
+ 	# Finds user by email, activated his account and logs him in	
 	 def edit
-			user = User.find_by(email: params[:email])
+			user = User.find_by(email: params[:email])                      			
 	    if user && !user.activated? && user.authenticated?(:activation, params[:id])
 	      user.activate
 	      log_in user

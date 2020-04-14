@@ -1,13 +1,13 @@
 class PasswordResetsController < ApplicationController
-  before_action :get_user,   only: [:edit, :update]
-  before_action :valid_user, only: [:edit, :update]
-  before_action :check_expiration, only: [:edit, :update]
+  before_action :get_user,   only: [:edit, :update]       # finds user
+  before_action :valid_user, only: [:edit, :update]       # checks if user valid
+  before_action :check_expiration, only: [:edit, :update] # checks time after email sending
 
 
   def new
   end
 
-  # Создание reset digest и отправка письма
+  # Creates reset digest and send email
  def create
    @user = User.find_by(email: params[:password_reset][:email].downcase)
    if @user
@@ -24,7 +24,7 @@ class PasswordResetsController < ApplicationController
   def edit
   end
 
-  # Действие обновление пароля, обновляет пароль в базе и логинит юзера если поля заполнены
+  # Updates password and login user if password field not empy
   def update
     if params[:user][:password].empty?
       @user.errors.add(:password, "can't be empty")
@@ -40,19 +40,18 @@ class PasswordResetsController < ApplicationController
 
   private
 
-  # Действие получающее пароль из полей сброса
+  # Gets password from password reset form
   def user_params
       params.require(:user).permit(:password, :password_confirmation)
   end
 
     
-  # Находит юзера по id
+  # Find user by his ID
   def get_user
     @user = User.find_by(email: params[:email])
   end
 
-  # Предфильтры
-  # Проверяет валидность пользователя.
+  # Сhecks if user valid
    def valid_user
      unless (@user && @user.activated? &&
              @user.authenticated?(:reset, params[:id]))
@@ -60,7 +59,7 @@ class PasswordResetsController < ApplicationController
      end
    end
 
-  # Проверяет срок действия reset-токена.
+  # Сhecks time after email sending
   def check_expiration
       if @user.password_reset_expired?
         flash[:danger] = "Password reset has expired."
