@@ -7,8 +7,8 @@ class SessionsController < ApplicationController
   # Creates session for user
  def create
   user = User.find_by(email: params[:session][:email].downcase) # finds user by email in DB
-  if user && user.authenticate(params[:session][:password])     # if user found do next
-    if user.activated?
+  if user && user.authenticate(params[:session][:password])     # compares user password with session password
+    if user.activated?                                          # checks if account activated
        log_in user
        params[:session][:remember_me] == '1' ? remember(user) : forget(user)
        redirect_back_or user

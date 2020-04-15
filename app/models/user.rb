@@ -37,8 +37,8 @@ class User < ApplicationRecord
 
   	# New token to cookies and update rememver_diges in DB
  	def remember
-    	self.remember_token = User.new_token 								# 
-    	update_attribute(:remember_digest, User.digest(remember_token))		# Обновляем remember_digest зашифрованным remember_token
+    	self.remember_token = User.new_token 								
+    	update_attribute(:remember_digest, User.digest(remember_token))		# Updates remember_digest encrypted remember_token
   	end
 
   	# Returns true if the token is equal to the digest

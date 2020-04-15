@@ -9,7 +9,7 @@ class ArticlesController < ApplicationController
 	end
 
 	def show
-		@comments = @article.comments.includes(:user).paginate(page: params[:page], per_page: 5).order('created_at DESC')
+		@comments = @article.comments.includes(:user).paginate(page: params[:page], per_page: 3).order('created_at DESC')
 		# binding.pry
 	end
 

@@ -1,10 +1,10 @@
 <!-- Search form -->
  <div class="wrapper search">
-          <%= form_tag articles_path, method: 'get' do %>
-            <%= text_field_tag :search, params[:search] %>
-          <%= submit_tag "Search" %>
-            <% end %>
-  </div>
+      <%= form_tag articles_path, method: 'get' do %>
+      <%= text_field_tag :search, params[:search] %>
+      <%= submit_tag "Search" %>
+      <% end %>
+ </div>
 
 <!-- Вывод всех статей -->
 <h1> Listing Articles </h1>
